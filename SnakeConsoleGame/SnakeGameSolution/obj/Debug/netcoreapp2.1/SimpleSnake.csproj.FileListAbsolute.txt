@@ -1,0 +1,11 @@
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\bin\Debug\netcoreapp2.1\SimpleSnake.deps.json
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\bin\Debug\netcoreapp2.1\SimpleSnake.runtimeconfig.json
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\bin\Debug\netcoreapp2.1\SimpleSnake.runtimeconfig.dev.json
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\bin\Debug\netcoreapp2.1\SimpleSnake.dll
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\bin\Debug\netcoreapp2.1\SimpleSnake.pdb
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.dll
+C:\Users\Administrator\Desktop\Codes\SmallProjects\SnakeConsoleGame\SimpleSnake\obj\Debug\netcoreapp2.1\SimpleSnake.pdb
