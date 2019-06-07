@@ -17,15 +17,15 @@
 
         }
 
-        public void Draw(IEnumerable<IPoint> points, char symbol)
+        public void DrawPoint(IEnumerable<IPoint> points, char symbol)
         {
             foreach (var point in points)
             {
-                this.Draw(point, symbol);
+                this.DrawPoint(point, symbol);
             }
         }
 
-        public void Draw(IPoint point, char symbol)
+        public void DrawPoint(IPoint point, char symbol)
         {
             int coordinateX = point.CoordinateX;
             int coordinateY = point.CoordinateY;
@@ -36,14 +36,50 @@
             SetDefaultCursorPosition();
         }
 
+        public void DrawPoint(int coordinateX, int coordinateY, char symbol)
+        {
+            Console.SetCursorPosition(coordinateX, coordinateY);
+            Console.Write(symbol);
+
+            SetDefaultCursorPosition();
+        }
+
         public void ClearPoint(IPoint point)
         {
-            this.Draw(point , ConsoleDrawManager.RemovedPointSymbol);
+            this.DrawPoint(point , ConsoleDrawManager.RemovedPointSymbol);
         }
 
         private static void SetDefaultCursorPosition()
         {
             Console.SetCursorPosition(ConsoleDrawManager.DefaultCursorPositionX, ConsoleDrawManager.DefaultCursorPositionY);
+        }
+
+        public void DrawText(IPoint startingPoint, string text, int lineLength)
+        {
+            int coordinateX = startingPoint.CoordinateX;
+            int coordinateY = startingPoint.CoordinateY;
+
+            string[] lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            foreach (var line in lines)
+            {
+                foreach (var ch in line)
+                {
+                    this.DrawPoint(coordinateX, coordinateY, ch);
+                    coordinateX++;
+
+                    if (coordinateX == startingPoint.CoordinateX + lineLength)
+                    {
+                        coordinateX = startingPoint.CoordinateX;
+                        coordinateY++;
+                    }
+                }
+
+                coordinateX = startingPoint.CoordinateX;
+                coordinateY++;
+            }
+
+            SetDefaultCursorPosition();
         }
     }
 }

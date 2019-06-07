@@ -6,10 +6,14 @@
 
     public interface IDrawManager
     {
-        void Draw(IEnumerable<IPoint> points, char symbol);
+        void DrawPoint(IEnumerable<IPoint> points, char symbol);
 
-        void Draw(IPoint point, char symbol);
+        void DrawPoint(IPoint point, char symbol);
+
+        void DrawPoint(int coordinateX, int coordinateY, char symbol);
 
         void ClearPoint(IPoint point);
+
+        void DrawText(IPoint startingPoint, string text, int lineLength);
     }
 }

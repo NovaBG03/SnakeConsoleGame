@@ -18,19 +18,22 @@
         private IFoodFactory foodFactory;
         private IFood spawnedFood;
         private IBorder border;
+        private IScoreBoard scoreBoard;
 
-        public Engine(ISnake snake, IDrawManager drawManager, IFoodFactory foodFactory, IBorder border)
+        public Engine(ISnake snake, IDrawManager drawManager, IFoodFactory foodFactory, IBorder border, IScoreBoard scoreBoard)
         {
             this.snake = snake;
             this.drawManager = drawManager;
             this.foodFactory = foodFactory;
             this.border = border;
+            this.scoreBoard = scoreBoard;
         }
 
         public void Run()
         {
-            SpawnBorder();
-            this.drawManager.Draw(snake.Body, (snake as IDrawable).Symbol);
+            DisplayBorder();
+            DisplayScoreBoard();
+            DisplaySnake();
 
             while (true)
             {
@@ -51,18 +54,28 @@
             }
         }
 
-        private void SpawnBorder()
+        private void DisplaySnake()
+        {
+            this.drawManager.DrawPoint(snake.Body, (snake as IDrawable).Symbol);
+        }
+
+        private void DisplayScoreBoard()
+        {
+            this.drawManager.DrawText(this.scoreBoard.StartingPoint, this.scoreBoard.InfoMessage, 20);
+        }
+
+        private void DisplayBorder()
         {
             for (int i = 0; i < this.border.DownRightCorner.CoordinateX; i++)
             {
-                this.drawManager.Draw(new Point(i, this.border.TopLeftCorner.CoordinateY), (this.border as IDrawable).Symbol);
-                this.drawManager.Draw(new Point(i, this.border.DownRightCorner.CoordinateY), (this.border as IDrawable).Symbol);
+                this.drawManager.DrawPoint(new Point(i, this.border.TopLeftCorner.CoordinateY), (this.border as IDrawable).Symbol);
+                this.drawManager.DrawPoint(new Point(i, this.border.DownRightCorner.CoordinateY), (this.border as IDrawable).Symbol);
             }
 
             for (int i = 0; i < this.border.DownRightCorner.CoordinateY; i++)
             {
-                this.drawManager.Draw(new Point(this.border.TopLeftCorner.CoordinateX, i), (this.border as IDrawable).Symbol);
-                this.drawManager.Draw(new Point(this.border.DownRightCorner.CoordinateX, i), (this.border as IDrawable).Symbol);
+                this.drawManager.DrawPoint(new Point(this.border.TopLeftCorner.CoordinateX, i), (this.border as IDrawable).Symbol);
+                this.drawManager.DrawPoint(new Point(this.border.DownRightCorner.CoordinateX, i), (this.border as IDrawable).Symbol);
             }
         }
 
@@ -77,7 +90,7 @@
                 }
             }
             
-            this.drawManager.Draw(this.spawnedFood, (this.spawnedFood as IDrawable).Symbol);
+            this.drawManager.DrawPoint(this.spawnedFood, (this.spawnedFood as IDrawable).Symbol);
         }
 
         private void MoveSnake()
@@ -90,6 +103,8 @@
             }
             else if (IsOnePoint(nextHead, this.spawnedFood))
             {
+                this.scoreBoard.AddEatenFood(this.spawnedFood);
+                this.DisplayScoreBoard();
                 this.spawnedFood = null;
             }
             else
@@ -100,7 +115,7 @@
             }
 
             this.snake.AddNextHead();
-            this.drawManager.Draw(snake.CurrentHead, (snake as IDrawable).Symbol);
+            this.drawManager.DrawPoint(snake.CurrentHead, (snake as IDrawable).Symbol);
         }
 
         private bool IsFromBorder(IPoint point)

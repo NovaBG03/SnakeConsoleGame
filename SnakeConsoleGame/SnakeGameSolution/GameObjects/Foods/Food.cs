@@ -15,5 +15,10 @@
         public char Symbol { get; }
 
         public int Score { get; }
+
+        public override string ToString()
+        {
+            return this.Symbol.ToString();
+        }
     }
 }

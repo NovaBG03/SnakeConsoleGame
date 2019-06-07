@@ -10,7 +10,7 @@
     {
         private const int InitializeX = 2;
         private const int InitializeY = 2;
-        private const int DefaulLength = 6;
+        public const int DefaulLength = 6;
 
         private List<Point> body;
 

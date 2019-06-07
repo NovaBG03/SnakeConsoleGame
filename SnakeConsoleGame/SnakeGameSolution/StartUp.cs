@@ -26,8 +26,9 @@
                 new Point(Console.WindowTop, Console.WindowLeft),
                 new Point(50, 30),
                 '=');
+            IScoreBoard scoreBoard = new ScoreBoard(new Point(border.DownRightCorner.CoordinateX + 3, border.TopLeftCorner.CoordinateY + 3), Snake.DefaulLength);
             IFoodFactory foodFactory = new FoodFactory(new Random(), border);
-            Engine engine = new Engine(snake, drawManager, foodFactory, border);
+            Engine engine = new Engine(snake, drawManager, foodFactory, border, scoreBoard);
             engine.Run();
         }
     }
