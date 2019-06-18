@@ -8,13 +8,13 @@
     {
         Direction CurrentDirection { get; set; }
 
-        IReadOnlyCollection<Point> Body { get; }
+        IReadOnlyCollection<IPoint> Body { get; }
 
-        Point CurrentHead { get; }
+        IPoint CurrentHead { get; }
 
-        Point NextHead { get; }
+        IPoint NextHead { get; }
 
-        Point Tale { get; }
+        IPoint Tale { get; }
 
         void AddNextHead();
 

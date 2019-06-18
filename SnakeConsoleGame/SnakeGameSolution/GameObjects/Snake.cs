@@ -8,42 +8,42 @@
 
     public class Snake : ISnake, IDrawable
     {
-        private const int InitializeX = 2;
-        private const int InitializeY = 2;
+        private const char DefaultSymbol = 'O';
         public const int DefaulLength = 6;
 
-        private List<Point> body;
+        private List<IPoint> body;
 
-        public Snake(char symbol)
+        public Snake(IPoint initializePoint)
         {
-            this.Symbol = symbol;
-            this.body = new List<Point>();
+            this.Symbol = DefaultSymbol;
+            this.body = new List<IPoint>();
+
+            int currentX = initializePoint.CoordinateX;
+            int currentY = initializePoint.CoordinateY;
 
             for (int i = 0; i < Snake.DefaulLength; i++)
             {
-                int currentX = Snake.InitializeX + i;
-                int currentY = Snake.InitializeY;
-                this.body.Add(new Point(currentX, currentY));
+                this.body.Add(new Point(currentX++, currentY));
             }
         }
 
         public Direction CurrentDirection { get; set; }
 
-        public IReadOnlyCollection<Point> Body
+        public IReadOnlyCollection<IPoint> Body
             => this.body.AsReadOnly();
 
-        public Point CurrentHead
+        public IPoint CurrentHead
             => this.body.Last();
 
-        public Point Tale
+        public IPoint Tale
             => this.body.First();
 
-        public Point NextHead
+        public IPoint NextHead
             => this.GetNextHead();
 
         public char Symbol { get; }
 
-        private Point GetNextHead()
+        private IPoint GetNextHead()
         {
             switch (this.CurrentDirection)
             {
@@ -58,7 +58,7 @@
                 default:
                     return this.CurrentHead;
             }
-        }
+        }    
 
         public void RemoveOldTale()
         {

@@ -4,9 +4,11 @@
 
     public class Border : IBorder, IDrawable
     {
-        public Border(Point topLeftCorner, Point downRightCorner, char symbol)
+        private const char DefaultSymbol = '=';
+
+        public Border(Point topLeftCorner, Point downRightCorner)
         {
-            this.Symbol = symbol;
+            this.Symbol = DefaultSymbol;
             this.TopLeftCorner = topLeftCorner;
             this.DownRightCorner = downRightCorner;
         }
