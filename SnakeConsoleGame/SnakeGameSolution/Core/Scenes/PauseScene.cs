@@ -1,6 +1,7 @@
 ﻿namespace SnakeGame.Core.Scenes
 {
     using System;
+    using System.Linq;
 
     using SnakeGame.Core.Contracts;
     using SnakeGame.Core.Scenes.Contracts;
@@ -9,7 +10,13 @@
 
     public class PauseScene : IScene
     {
-        private const string Message = "Pause... \n Press Enter To Continue";
+        private const string PauseMessage = "╭━━━╮            " + "\n" +
+                                            "┃╭━╮┃            " + "\n" +
+                                            "┃╰━╯┣━━┳╮╭┳━━┳━━╮" + "\n" +
+                                            "┃╭━━┫╭╮┃┃┃┃━━┫┃━┫" + "\n" +
+                                            "┃┃  ┃╭╮┃╰╯┣━━┃┃━┫" + "\n" +
+                                            "╰╯  ╰╯╰┻━━┻━━┻━━╯";
+        private const string TextMessage = "Press Enter To Continue";
         private readonly IDrawManager drawManager;
 
         public PauseScene(IDrawManager drawManager)
@@ -21,11 +28,10 @@
         public void Display()
         {
             //Console.Clear();
+            this.DrawMessages(Console.WindowWidth / 2 + 1, Console.WindowHeight / 4);
 
             while (true)
             {
-                drawManager.DrawText((Console.WindowWidth - Message.Length) / 2, Console.WindowHeight / 2, Message, Message.Length, Coordinate.X);
-
                 if (Console.KeyAvailable)
                 {
                     var keyAsChar = Console.ReadKey().Key;
@@ -40,6 +46,15 @@
                     }
                 }
             }
+        }
+
+        private void DrawMessages(int coordinateX, int coordinateY)
+        {
+            string PauseMessageLine = PauseMessage.Split().First();
+
+            this.drawManager.DrawText(coordinateX - 8, coordinateY - 6, PauseMessage, PauseMessage.Length, Coordinate.X);
+            this.drawManager.DrawText(coordinateX - (TextMessage.Length / 2), coordinateY, TextMessage, TextMessage.Length, Coordinate.X);
+
         }
     }
 }

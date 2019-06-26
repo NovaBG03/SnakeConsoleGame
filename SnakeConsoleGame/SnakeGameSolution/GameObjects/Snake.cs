@@ -8,14 +8,19 @@
 
     public class Snake : ISnake, IDrawable
     {
-        private const char DefaultSymbol = 'O';
+        public const char DefaultBodySymbol = 'O';
+        private const char DefaultHeadUpSymbol = 'ʌ';
+        private const char DefaultHeadDownSymbol = 'v';
+        private const char DefaultHeadRightSymbol = '>';
+        private const char DefaultHeadLeftSymbol = '<';
         public const int DefaulLength = 6;
 
         private List<IPoint> body;
+        private Direction currentDirection;
 
         public Snake(IPoint initializePoint)
         {
-            this.Symbol = DefaultSymbol;
+            this.Symbol = DefaultHeadRightSymbol;
             this.body = new List<IPoint>();
 
             int currentX = initializePoint.CoordinateX;
@@ -27,7 +32,30 @@
             }
         }
 
-        public Direction CurrentDirection { get; set; }
+        public Direction CurrentDirection
+        {
+            get => currentDirection;
+            set
+            {
+                switch (value)
+                {
+                    case Direction.Right:
+                        this.Symbol = DefaultHeadRightSymbol;
+                        break;
+                    case Direction.Left:
+                        this.Symbol = DefaultHeadLeftSymbol;
+                        break;
+                    case Direction.Down:
+                        this.Symbol = DefaultHeadDownSymbol;
+                        break;
+                    case Direction.Up:
+                        this.Symbol = DefaultHeadUpSymbol;
+                        break;
+                }
+
+                currentDirection = value;
+            }
+        }
 
         public IReadOnlyCollection<IPoint> Body
             => this.body.AsReadOnly();
@@ -41,7 +69,7 @@
         public IPoint NextHead
             => this.GetNextHead();
 
-        public char Symbol { get; }
+        public char Symbol { get; private set; }
 
         private IPoint GetNextHead()
         {
@@ -58,7 +86,7 @@
                 default:
                     return this.CurrentHead;
             }
-        }    
+        }
 
         public void RemoveOldTale()
         {

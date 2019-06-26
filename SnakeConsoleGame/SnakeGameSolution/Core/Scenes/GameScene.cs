@@ -10,9 +10,13 @@
     using SnakeGame.GameObjects.Contracts;
     using SnakeGame.GameObjects.Foods.Contracts;
     using SnakeGame.Core.Scenes.Contracts;
+    using SnakeGame.GameObjects;
 
     public class GameScene : IScene
     {
+        private const int GameMaxSpeed = 70;
+        private const int GameMinSpeed = 150;
+
         private readonly ISnake snake;
         private readonly IDrawManager drawManager;
         private readonly IFoodFactory foodFactory;
@@ -21,6 +25,7 @@
         private readonly IScene pauseScene;
         private readonly IScene gameOverScene;
         private IFood spawnedFood;
+        private int gameSpeed;
 
         public GameScene(ISnake snake, IDrawManager drawManager, IFoodFactory foodFactory, IBorder border, IScoreBoard scoreBoard, IScene pauseScene, IScene gameOverScene)
         {
@@ -32,6 +37,22 @@
             this.pauseScene = pauseScene;
             this.gameOverScene = gameOverScene;
             this.spawnedFood = null;
+            this.GameSpeed = GameMinSpeed;
+        }
+
+        private int GameSpeed
+        {
+            get => this.gameSpeed;
+            set
+            {
+                if (value < GameMaxSpeed)
+                {
+                    this.gameSpeed = GameMaxSpeed;
+                    return;
+                }
+
+                this.gameSpeed = value;
+            }
         }
 
         public void Display()
@@ -53,7 +74,7 @@
 
                 MoveSnake();
 
-                Thread.Sleep(100);
+                Thread.Sleep(this.GameSpeed);
             }
         }
 
@@ -76,12 +97,13 @@
 
         private void DisplaySnake()
         {
-            this.drawManager.DrawPoint(snake.Body, (snake as IDrawable).Symbol);
+            this.drawManager.DrawPoint(snake.Body, Snake.DefaultBodySymbol);
         }
 
         private void DisplayScoreBoard()
         {
             this.drawManager.DrawText(this.scoreBoard.StartingPoint, this.scoreBoard.InfoMessage, 20, Coordinate.X);
+            this.drawManager.DrawText(this.scoreBoard.StartingPoint.CoordinateX, this.scoreBoard.StartingPoint.CoordinateY + 2, this.scoreBoard.FoodMessage, 30, Coordinate.X);
         }
 
         private void DisplayBorder()
@@ -89,11 +111,12 @@
             int height = border.DownRightCorner.CoordinateY - border.TopLeftCorner.CoordinateY + 1;
             int width = border.DownRightCorner.CoordinateX - border.TopLeftCorner.CoordinateX + 1;
 
-            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string((this.border as IDrawable).Symbol, height), height, Coordinate.Y);
-            this.drawManager.DrawText(this.border.DownRightCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string((this.border as IDrawable).Symbol, height), height, Coordinate.Y);
+            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string(this.border.HorizontalSymbol, width), width, Coordinate.X);
+            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.DownRightCorner.CoordinateY, new string(this.border.HorizontalSymbol, width), width, Coordinate.X);
 
-            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string((this.border as IDrawable).Symbol, width), width, Coordinate.X);
-            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.DownRightCorner.CoordinateY, new string((this.border as IDrawable).Symbol, width), width, Coordinate.X);
+            this.drawManager.DrawText(this.border.TopLeftCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string(this.border.VerticalSymbol, height), height, Coordinate.Y);
+            this.drawManager.DrawText(this.border.DownRightCorner.CoordinateX, this.border.TopLeftCorner.CoordinateY, new string(this.border.VerticalSymbol, height), height, Coordinate.Y);
+
         }
 
         private void SpawnFood()
@@ -116,11 +139,13 @@
 
             if (this.IsFromSnakeBody(nextHead) || IsFromBorder(nextHead))
             {
+                (gameOverScene as GameOverScene).PlayerScore = this.scoreBoard.PlayerScore;
                 gameOverScene.Display();
             }
             else if (IsOnePoint(nextHead, this.spawnedFood))
             {
                 this.scoreBoard.AddEatenFood(this.spawnedFood);
+                this.GameSpeed -= this.spawnedFood.Score;
                 this.DisplayScoreBoard();
                 this.spawnedFood = null;
             }
@@ -130,6 +155,8 @@
                 this.snake.RemoveOldTale();
                 this.drawManager.ClearPoint(oldTale);
             }
+
+            this.drawManager.DrawPoint(this.snake.CurrentHead, Snake.DefaultBodySymbol);
 
             this.snake.AddNextHead();
             this.drawManager.DrawPoint(snake.CurrentHead, (snake as IDrawable).Symbol);

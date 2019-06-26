@@ -18,6 +18,7 @@
             "┃┃╭━┫╭╮┃╰╯┃┃━┫┃╱┃┃╰╯┃┃━┫╭╯" + "\n" +
             "┃╰┻━┃╭╮┃┃┃┃┃━┫╰━╯┣╮╭┫┃━┫┃" + "\n" +
             "╰━━━┻╯╰┻┻┻┻━━┻━━━╯╰╯╰━━┻╯";
+        private const string PointsMessageFormat = "Your score was: {0}";
 
         private readonly IButton[] buttons;
         private readonly IDrawManager drawManager;
@@ -29,6 +30,10 @@
             this.buttons = buttons;
             this.drawManager = drawManager;
         }
+
+        public int PlayerScore { get; set; }
+
+        private string PointsMessage => string.Format(PointsMessageFormat, this.PlayerScore);
 
         private IButton CurrentButton => this.buttons[index];
 
@@ -65,6 +70,7 @@
 
         private void DisplayText()
         {
+            drawManager.DrawText(Console.WindowWidth / 2 - 8, Console.WindowHeight / 2 - 4, PointsMessage, PointsMessage.Length, Coordinate.X);
             drawManager.DrawText(Console.WindowWidth / 2 - 12, Console.WindowHeight / 2 - 10, GameOverMessage, GameOverMessage.Length, Coordinate.X);
         }
 

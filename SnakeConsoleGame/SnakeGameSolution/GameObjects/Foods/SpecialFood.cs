@@ -2,7 +2,7 @@
 {
     public class SpecialFood : Food
     {
-        private const char FoodSymbol = '+';
+        private const char FoodSymbol = 'Ѻ';
         private const int FoodScore = 2;
 
         public SpecialFood(int coordinateX, int coordinateY) 

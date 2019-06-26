@@ -8,6 +8,10 @@
 
         string InfoMessage { get; }
 
+        string FoodMessage { get; }
+
+        int PlayerScore { get; }
+
         void AddEatenFood(IFood food);
     }
 }

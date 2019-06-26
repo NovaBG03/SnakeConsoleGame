@@ -2,13 +2,15 @@
 {
     using SnakeGame.GameObjects.Contracts;
 
-    public class Border : IBorder, IDrawable
+    public class Border : IBorder
     {
-        private const char DefaultSymbol = '=';
+        private const char DefaultVerticalSymbol = '█';
+        private const char DefaultHorizontalSymbol = '\u25A0';
 
         public Border(Point topLeftCorner, Point downRightCorner)
         {
-            this.Symbol = DefaultSymbol;
+            this.VerticalSymbol = DefaultVerticalSymbol;
+            this.HorizontalSymbol = DefaultHorizontalSymbol;
             this.TopLeftCorner = topLeftCorner;
             this.DownRightCorner = downRightCorner;
         }
@@ -17,6 +19,8 @@
 
         public Point DownRightCorner { get; }
 
-        public char Symbol { get; }
+        public char VerticalSymbol { get; }
+
+        public char HorizontalSymbol { get; }
     }
 }
